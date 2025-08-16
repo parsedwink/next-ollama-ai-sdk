@@ -6,9 +6,19 @@ const fetcher = (url: string | URL | Request) =>
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { CirclePlusIcon } from "lucide-react"
+import { CirclePlusIcon, X } from "lucide-react"
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 export default function Pairs() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data, error, isLoading } = useSWR("/api/db", fetcher)
   const all = data.all as Record<string, string>
 
@@ -20,6 +30,45 @@ export default function Pairs() {
           e.preventDefault()
         }}
       >
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="">
+                <Input name="key" placeholder="engleza" />
+              </TableHead>
+              <TableHead className="">
+                <Input name="val" placeholder="romana" />
+              </TableHead>
+              <TableHead>
+                <Button variant="default" size="icon" className="size-8">
+                  <CirclePlusIcon />
+                </Button>
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          {/*  */}
+          <TableBody>
+            {Object.entries(all).map(([key, val]) => {
+              return (
+                <TableRow key={key}>
+                  <TableCell className="font-medium">{key}</TableCell>
+                  <TableCell>{val}</TableCell>
+                  <TableCell className="">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="size-8 text-muted"
+                    >
+                      <X />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              )
+            })}
+          </TableBody>
+        </Table>
+        {/* 
+
         <div className="flex flex-row gap-1 items-center">
           <Input name="key" placeholder="engleza" />
           <Input name="val" placeholder="romana" />
@@ -39,6 +88,7 @@ export default function Pairs() {
             })
           }
         </div>
+*/}
       </form>
     </div>
   )
