@@ -1,55 +1,29 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-
-import { useChat } from "@ai-sdk/react"
 import { useState } from "react"
+import { generate } from "@/app/actions"
+import { readStreamableValue } from "@ai-sdk/rsc"
+
+const demo = `The machinery is designed to minimise production downtime and the number of operators involved in the operation. The software autonomously monitors and adjusts the treatment, so that personnel do not need to be constantly near the plant.`
 
 export default function Translate() {
-  const [input, setInput] = useState("")
-  const { messages, sendMessage } = useChat()
+  const [generation, setGeneration] = useState<string>("")
 
   return (
-    <form
-      className="h-full"
-      onSubmit={(e) => {
-        e.preventDefault()
-        sendMessage({ text: input })
-        setInput("")
-      }}
-    >
-      <div className="size-full">
-        <div
-          id="result"
-          className="size-full rounded-md border p-4 h-6/12 overflow-auto"
-        >
-          {messages
-            .filter((m) => m.role === "assistant")
-            .map((m) => (
-              <div key={m.id} className="whitespace-pre-wrap">
-                {m.parts
-                  .filter((p) => p.type === "text")
-                  .map((part, i) => (
-                    <div key={`${m.id}-${i}`}>{part.text}</div>
-                  ))}
-              </div>
-            ))}
-        </div>
+    <div>
+      <button
+        onClick={async () => {
+          const { output } = await generate(demo)
 
-        <Textarea
-          id="source"
-          className="border border-accent rounded h-5/12"
-          value={input}
-          placeholder="Say something..."
-          onChange={(e) => setInput(e.currentTarget.value)}
-        />
-        <div className="flex items-center justify-center p-2 h-1/12">
-          <Button type="submit" className="w-2/6">
-            Send
-          </Button>
-        </div>
-      </div>
-    </form>
+          for await (const delta of readStreamableValue(output)) {
+            setGeneration((currentGeneration) => `${currentGeneration}${delta}`)
+          }
+        }}
+      >
+        Ask
+      </button>
+
+      <div>{generation}</div>
+    </div>
   )
 }

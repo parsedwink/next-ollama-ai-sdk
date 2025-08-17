@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ all })
   }
 }
+
 export async function POST(req: NextRequest) {
   const body = await req.json()
   const { key, val } = body

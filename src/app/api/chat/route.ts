@@ -2,8 +2,8 @@
 import { ollama } from "ollama-ai-provider-v2"
 import { streamText, UIMessage, convertToModelMessages } from "ai"
 
-// Allow streaming responses up to 30 seconds
-export const maxDuration = 30
+// Allow streaming responses up to 50 seconds
+export const maxDuration = 50
 
 const model = ollama("hf.co/QuantFactory/EuroLLM-9B-Instruct-GGUF:Q4_K_M")
 
