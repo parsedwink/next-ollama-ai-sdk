@@ -37,7 +37,7 @@ export default function Pairs() {
             }}
           >
             <Table>
-              <TableHeader className="border-b-0">
+              <TableHeader className="[&_tr]:border-b-0">
                 <TableRow>
                   <TableHead className="">
                     <Input name="key" placeholder="engleza" />
