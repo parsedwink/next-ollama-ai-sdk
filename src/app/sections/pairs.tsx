@@ -6,12 +6,22 @@ import useSWRMutation from "swr/mutation"
 const fetcher = (url: string | URL | Request) =>
   fetch(url).then((r) => r.json())
 
-async function sendRequest(
+async function sendPost(
   url: string | URL | Request,
-  { arg }: { arg: { username: string } },
+  { arg }: { arg: { key: string; val: string } },
 ) {
   return fetch(url, {
     method: "POST",
+    body: JSON.stringify(arg),
+  }).then((res) => res.json())
+}
+
+async function sendDelete(
+  url: string | URL | Request,
+  { arg }: { arg: { key: string } },
+) {
+  return fetch(url, {
+    method: "DELETE",
     body: JSON.stringify(arg),
   }).then((res) => res.json())
 }
@@ -36,7 +46,15 @@ export default function Pairs() {
   })
   const all = data.all as Record<string, string>
 
-  const { trigger, isMutating } = useSWRMutation("/api/db", sendRequest)
+  const { trigger: triggerPost, isMutating } = useSWRMutation(
+    "/api/db",
+    sendPost,
+  )
+  const { trigger: triggerDelete } = useSWRMutation("/api/db", sendDelete)
+
+  function handleDel(e: unknown, key: string) {
+    triggerDelete({ key })
+  }
 
   if (error) {
     return <div className="bg-destructive">{`Error: ${error}`}</div>
@@ -48,6 +66,7 @@ export default function Pairs() {
         <h3>Pairs</h3>
         <Suspense fallback={<div>loading...</div>}>
           <form
+            id="form_add_pair"
             onSubmit={(e) => {
               e.preventDefault()
             }}
@@ -56,10 +75,10 @@ export default function Pairs() {
               <TableHeader className="[&_tr]:border-b-0">
                 <TableRow>
                   <TableHead className="">
-                    <Input name="key" placeholder="engleza" />
+                    <Input id="form_key" placeholder="engleza" />
                   </TableHead>
                   <TableHead className="">
-                    <Input name="val" placeholder="romana" />
+                    <Input id="form_val" placeholder="romana" />
                   </TableHead>
                   <TableHead>
                     <Button
@@ -68,12 +87,26 @@ export default function Pairs() {
                       className="size-8"
                       disabled={isMutating}
                       onClick={async () => {
+                        const form_key = document.getElementById(
+                          "form_key",
+                        )! as HTMLInputElement
+                        const form_val = document.getElementById(
+                          "form_val",
+                        )! as HTMLInputElement
+
                         try {
-                          console.log("try")
-                          // const result = await trigger({ username: "johndoe" })
-                        } catch (e) {
-                          // error handling
+                          // const result = await trigger({
+                          await triggerPost({
+                            key: form_key.value,
+                            val: form_val.value,
+                          })
+                        } catch (error) {
+                          console.log(`${error}`)
                         }
+
+                        // reset
+                        form_key.value = ""
+                        form_val.value = ""
                       }}
                     >
                       <CirclePlusIcon />
@@ -93,6 +126,7 @@ export default function Pairs() {
                           variant="ghost"
                           size="icon"
                           className="size-8 text-muted"
+                          onClick={async (e) => handleDel(e, key)}
                         >
                           <X />
                         </Button>
