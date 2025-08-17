@@ -8,7 +8,7 @@ export default function Translate() {
   const [input, setInput] = useState("")
   const { messages, sendMessage } = useChat()
   return (
-    <div className="flex flex-col w-full stretch">
+    <div className="flex flex-col w-full">
       {messages.map((message) => (
         <div key={message.id} className="whitespace-pre-wrap">
           {message.role === "user" ? "User: " : "AI: "}
