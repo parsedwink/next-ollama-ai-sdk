@@ -1,8 +1,8 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { Textarea } from "@/components/ui/textarea"
+
 import { useChat } from "@ai-sdk/react"
 import { useState } from "react"
 
@@ -19,11 +19,10 @@ export default function Translate() {
         setInput("")
       }}
     >
-      <div className="flex flex-col w-full h-full gap-2">
-        <Textarea
+      <div className="size-full">
+        <div
           id="result"
-          className="w-full rounded-md border p-4 grow"
-          placeholder=""
+          className="size-full rounded-md border p-4 h-6/12 overflow-auto"
         >
           {messages
             .filter((m) => m.role === "assistant")
@@ -36,17 +35,19 @@ export default function Translate() {
                   ))}
               </div>
             ))}
-        </Textarea>
+        </div>
 
         <Textarea
           id="source"
-          className="border border-accent rounded grow"
+          className="border border-accent rounded h-5/12"
           value={input}
           placeholder="Say something..."
           onChange={(e) => setInput(e.currentTarget.value)}
         />
-        <div className="grow-0">
-          <Button type="submit">Send</Button>
+        <div className="flex items-center justify-center p-2 h-1/12">
+          <Button type="submit" className="w-2/6">
+            Send
+          </Button>
         </div>
       </div>
     </form>
