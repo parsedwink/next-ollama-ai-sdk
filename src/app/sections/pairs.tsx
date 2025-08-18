@@ -28,7 +28,7 @@ async function sendDelete(
 
 import { Button } from "@/components/ui/button"
 import { PlusIcon } from "lucide-react"
-import { Suspense, use, useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 
 import { Pill, PillButton, PillStatus } from "@/components/ui/kibo-ui/pill"
 import { XIcon } from "lucide-react"
@@ -109,7 +109,8 @@ export default function Pairs() {
                   <InputBaseControl>
                     <InputBaseInput
                       id="form_key"
-                      placeholder="key"
+                      placeholder="sursa"
+                      value={input_key ?? ""}
                       onChange={(e) => setInput_key(e.target.value)}
                     />
                   </InputBaseControl>
@@ -120,14 +121,18 @@ export default function Pairs() {
                   <InputBaseControl>
                     <InputBaseInput
                       id="form_val"
-                      placeholder="val"
+                      placeholder="traducere"
+                      value={input_val ?? ""}
                       onChange={(e) => setInput_val(e.target.value)}
                     />
                   </InputBaseControl>
                 </InputBase>
               </ControlGroupItem>
               <ControlGroupItem>
-                <Button disabled={!addOk} onClick={() => handleAdd()}>
+                <Button
+                  disabled={!addOk || isMutating}
+                  onClick={() => handleAdd()}
+                >
                   <PlusIcon />
                 </Button>
               </ControlGroupItem>
