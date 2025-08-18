@@ -39,6 +39,9 @@ import {
 } from "@/components/ui/table"
 import { Suspense } from "react"
 
+import { Pill, PillButton, PillStatus } from "@/components/ui/kibo-ui/pill"
+import { XIcon } from "lucide-react"
+
 export default function Pairs() {
   const { data = { all: [] }, error } = useSWR("/api/db", fetcher, {
     suspense: true,
@@ -64,6 +67,7 @@ export default function Pairs() {
     <SWRConfig>
       <div className="flex flex-col gap-2 p-2">
         <h3>Pairs</h3>
+
         <Suspense fallback={<div>loading...</div>}>
           <form
             id="form_add_pair"
@@ -136,6 +140,27 @@ export default function Pairs() {
                 })}
               </TableBody>
             </Table>
+            <hr className="mb-2" />
+            {/* w/ pills */}
+            <div className="flex flex-wrap gap-1">
+              {Object.entries(all).map(([key, val]) => {
+                return (
+                  <Pill key={key}>
+                    <PillStatus>{key}</PillStatus>
+                    {val}
+                    <PillButton
+                      size="icon"
+                      variant="ghost"
+                      onClick={async (e) => handleDel(e, key)}
+                    >
+                      <XIcon className="text-neutral-500" size={12} />
+                    </PillButton>
+                  </Pill>
+                )
+              })}
+            </div>
+
+            {/* - */}
           </form>
         </Suspense>
       </div>
