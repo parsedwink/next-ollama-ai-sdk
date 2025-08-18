@@ -27,20 +27,20 @@ async function sendDelete(
 }
 
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { CirclePlusIcon, X } from "lucide-react"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import { Suspense } from "react"
+import { PlusIcon } from "lucide-react"
+import { Suspense, use, useEffect, useState } from "react"
 
 import { Pill, PillButton, PillStatus } from "@/components/ui/kibo-ui/pill"
 import { XIcon } from "lucide-react"
+
+import { ControlGroup, ControlGroupItem } from "@/components/ui/control-group"
+import {
+  InputBase,
+  InputBaseControl,
+  InputBaseInput,
+} from "@/components/ui/input-base"
+
+// ---
 
 export default function Pairs() {
   const { data = { all: [] }, error } = useSWR("/api/db", fetcher, {
@@ -53,11 +53,43 @@ export default function Pairs() {
     "/api/db",
     sendPost,
   )
-  const { trigger: triggerDelete } = useSWRMutation("/api/db", sendDelete)
 
+  //--- state
+  const { trigger: triggerDelete } = useSWRMutation("/api/db", sendDelete)
+  const [input_key, setInput_key] = useState("")
+  const [input_val, setInput_val] = useState("")
+  const [addOk, setAddOk] = useState(false)
+
+  useEffect(() => {
+    const ok = input_key.length > 0 && input_val.length > 0
+    setAddOk(ok)
+  }, [input_key, input_val])
+
+  //--- handlers
   function handleDel(e: unknown, key: string) {
     triggerDelete({ key })
   }
+
+  async function handleAdd() {
+    if (!addOk) {
+      return
+    }
+    try {
+      // const result = await trigger({
+      await triggerPost({
+        key: input_key,
+        val: input_key,
+      })
+    } catch (error) {
+      console.log(`${error}`)
+    }
+
+    // reset
+    setInput_key("")
+    setInput_val("")
+  }
+
+  // ---
 
   if (error) {
     return <div className="bg-destructive">{`Error: ${error}`}</div>
@@ -65,83 +97,44 @@ export default function Pairs() {
 
   return (
     <SWRConfig>
-      <div className="flex flex-col gap-2 p-2">
-        <h3>Pairs</h3>
+      <h3>Pairs</h3>
 
-        <Suspense fallback={<div>loading...</div>}>
-          <form
-            id="form_add_pair"
-            onSubmit={(e) => {
-              e.preventDefault()
-            }}
-          >
-            <Table>
-              <TableHeader className="[&_tr]:border-b-0">
-                <TableRow>
-                  <TableHead className="">
-                    <Input id="form_key" placeholder="engleza" />
-                  </TableHead>
-                  <TableHead className="">
-                    <Input id="form_val" placeholder="romana" />
-                  </TableHead>
-                  <TableHead>
-                    <Button
-                      variant="default"
-                      size="icon"
-                      className="size-8"
-                      disabled={isMutating}
-                      onClick={async () => {
-                        const form_key = document.getElementById(
-                          "form_key",
-                        )! as HTMLInputElement
-                        const form_val = document.getElementById(
-                          "form_val",
-                        )! as HTMLInputElement
+      <Suspense fallback={<div>loading...</div>}>
+        <form id="form_add_pair">
+          <div className="flex flex-col gap-2 p-2">
+            {/* inputs group */}
+            <ControlGroup>
+              <ControlGroupItem>
+                <InputBase>
+                  <InputBaseControl>
+                    <InputBaseInput
+                      id="form_key"
+                      placeholder="key"
+                      onChange={(e) => setInput_key(e.target.value)}
+                    />
+                  </InputBaseControl>
+                </InputBase>
+              </ControlGroupItem>
+              <ControlGroupItem>
+                <InputBase>
+                  <InputBaseControl>
+                    <InputBaseInput
+                      id="form_val"
+                      placeholder="val"
+                      onChange={(e) => setInput_val(e.target.value)}
+                    />
+                  </InputBaseControl>
+                </InputBase>
+              </ControlGroupItem>
+              <ControlGroupItem>
+                <Button disabled={!addOk} onClick={() => handleAdd()}>
+                  <PlusIcon />
+                </Button>
+              </ControlGroupItem>
+            </ControlGroup>
 
-                        try {
-                          // const result = await trigger({
-                          await triggerPost({
-                            key: form_key.value,
-                            val: form_val.value,
-                          })
-                        } catch (error) {
-                          console.log(`${error}`)
-                        }
-
-                        // reset
-                        form_key.value = ""
-                        form_val.value = ""
-                      }}
-                    >
-                      <CirclePlusIcon />
-                    </Button>
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              {/*  */}
-              <TableBody>
-                {Object.entries(all).map(([key, val]) => {
-                  return (
-                    <TableRow key={key} className="">
-                      <TableCell className="font-medium">{key}</TableCell>
-                      <TableCell>{val}</TableCell>
-                      <TableCell className="">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="size-8 text-muted"
-                          onClick={async (e) => handleDel(e, key)}
-                        >
-                          <X />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
-            <hr className="mb-2" />
             {/* w/ pills */}
+
             <div className="flex flex-wrap gap-1">
               {Object.entries(all).map(([key, val]) => {
                 return (
@@ -161,9 +154,9 @@ export default function Pairs() {
             </div>
 
             {/* - */}
-          </form>
-        </Suspense>
-      </div>
+          </div>
+        </form>
+      </Suspense>
     </SWRConfig>
   )
 }
