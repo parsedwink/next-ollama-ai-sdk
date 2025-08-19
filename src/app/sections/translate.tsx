@@ -25,6 +25,7 @@ export default function Translate() {
 
   async function submitText() {
     setIsLoading(true)
+    setGeneration("")
     const { output } = await generate(input)
     for await (const delta of readStreamableValue(output)) {
       setGeneration((currentGeneration) => `${currentGeneration}${delta}`)
@@ -48,27 +49,29 @@ export default function Translate() {
             onSubmit={submitText}
             className="w-full h-full max-w-(--breakpoint-md) rounded-none p-0"
           >
-            <PromptInputTextarea
-              placeholder="Text de tradus"
-              id="input_source"
-              className="min-h-[600px] resize-y field-sizing-fixed"
-            />
-            <PromptInputActions className="justify-end pt-2">
-              <PromptInputAction tooltip={isLoading ? "Stop" : "Send"}>
-                <Button
-                  variant="default"
-                  size="icon"
-                  className="h-8 w-8 rounded-full"
-                  onClick={submitText}
-                >
-                  {isLoading ? (
-                    <Square className="size-5 fill-current" />
-                  ) : (
-                    <ArrowUp className="size-5" />
-                  )}
-                </Button>
-              </PromptInputAction>
-            </PromptInputActions>
+            <div className="relative size-full">
+              <PromptInputTextarea
+                placeholder="Text de tradus"
+                id="input_source"
+                className="min-h-full resize-y field-sizing-fixed"
+              />
+              <PromptInputActions className="justify-end pt-2 absolute top-2 right-2">
+                <PromptInputAction tooltip={isLoading ? "Stop" : "Send"}>
+                  <Button
+                    variant="default"
+                    size="icon"
+                    className="h-8 w-8 rounded-full"
+                    onClick={submitText}
+                  >
+                    {isLoading ? (
+                      <Square className="size-5 fill-current" />
+                    ) : (
+                      <ArrowUp className="size-5" />
+                    )}
+                  </Button>
+                </PromptInputAction>
+              </PromptInputActions>
+            </div>
           </PromptInput>
         </ResizablePanel>
         <ResizableHandle withHandle />
