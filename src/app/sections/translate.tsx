@@ -29,6 +29,7 @@ export default function Translate() {
     for await (const delta of readStreamableValue(output)) {
       setGeneration((currentGeneration) => `${currentGeneration}${delta}`)
     }
+    setIsLoading(false)
   }
 
   const handleValueChange = (value: string) => {

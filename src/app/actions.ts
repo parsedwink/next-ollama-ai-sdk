@@ -7,7 +7,9 @@ import { Jsoning, JSONValue } from "jsoning"
 
 const db = new Jsoning("db/testdb.json")
 const pairs = await db.all()
-const model = ollama("hf.co/QuantFactory/EuroLLM-9B-Instruct-GGUF:Q4_K_M")
+
+// const model = ollama("hf.co/QuantFactory/EuroLLM-9B-Instruct-GGUF:Q4_K_M")
+const model = ollama("jobautomation/OpenEuroLLM-Romanian:latest")
 
 export async function generate(source: string) {
   const stream = createStreamableValue("")
