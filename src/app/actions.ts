@@ -11,10 +11,10 @@ const model = ollama("hf.co/QuantFactory/EuroLLM-9B-Instruct-GGUF:Q4_K_M")
 
 export async function generate(source: string) {
   const stream = createStreamableValue("")
-  const examples = pairs.length ? "Exemple:\n" + buildExample(pairs) + "\n" : ""
+  const examples = pairs.length ? "EXEMPLE:\n" + buildExample(pairs) + "\n" : ""
 
   const prompt = `${examples}
-  Tradu in limba romana, foloseste exemplele:${source}`
+  Tradu in limba romana, foloseste EXEMPLE:${source}`
 
   ;(async () => {
     const { textStream } = streamText({
