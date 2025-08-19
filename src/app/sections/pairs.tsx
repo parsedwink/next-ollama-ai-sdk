@@ -32,6 +32,9 @@ export default function Pairs() {
     })
 
     if (result.status === 202) {
+      const newPairs = Object.assign({}, pairs)
+      delete newPairs[key]
+      setPairs(newPairs)
     }
   }
 
@@ -50,8 +53,9 @@ export default function Pairs() {
     } catch (error) {
       console.log(`${error}`)
     }
-    // TODO: fix
-    // setPairs(Object.defineProperty(pairs, input_key, input_val))
+    const newPairs = Object.assign({}, pairs)
+    newPairs[input_key] = input_val
+    setPairs(newPairs)
     setInput_key("")
     setInput_val("")
   }
@@ -68,7 +72,7 @@ export default function Pairs() {
     <div>
       <h3>Pairs</h3>
 
-      <form id="form_add_pair">
+      <form id="form_add_pair" onSubmit={(e) => e.preventDefault()}>
         <div className="flex flex-col gap-2 p-2">
           {/* inputs group */}
           <ControlGroup>

@@ -13,10 +13,12 @@ const model = ollama("jobautomation/OpenEuroLLM-Romanian:latest")
 
 export async function generate(source: string) {
   const stream = createStreamableValue("")
-  const examples = pairs.length ? "EXEMPLE:\n" + buildExample(pairs) + "\n" : ""
+  const examples = pairs.length
+    ? "DEFINITII:\n" + buildExample(pairs) + "\n"
+    : ""
 
   const prompt = `${examples}
-  Tradu in limba romana, foloseste EXEMPLE:${source}`
+  Tradu in limba romana, foloseste DEFINITII:${source}`
 
   ;(async () => {
     const { textStream } = streamText({
