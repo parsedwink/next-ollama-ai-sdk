@@ -70,8 +70,6 @@ export default function Pairs() {
 
   return (
     <div>
-      <h3>Pairs</h3>
-
       <form id="form_add_pair" onSubmit={(e) => e.preventDefault()}>
         <div className="flex flex-col gap-2 p-2">
           {/* inputs group */}
