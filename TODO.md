@@ -2,11 +2,9 @@
 
 - [ ] model+prompt+lang store
 
-## pairs panel
+## dev
 
 - [ ] order alpha items
 - wtf page reload on submit --> make server comp
-
-## dev
-
 - [ ] eject chat api route
+- [ ] consistent design (size, padding etc.)
