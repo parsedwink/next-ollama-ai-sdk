@@ -15,6 +15,7 @@ import Pairs from "./pairs"
 // shadcn demo
 import { data } from "@/config/demo-sidebar-data"
 import { ModelSwitcher } from "@/components/model-switcher"
+import { ModeToggle } from "@/components/mode-toggle"
 
 export default function AppSidebar({
   ...props
@@ -32,7 +33,9 @@ export default function AppSidebar({
         {/* <NavMain items={data.navMain} /> */}
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
-      <SidebarFooter>{/* <NavUser user={data.user} /> */}</SidebarFooter>
+      <SidebarFooter>
+        <ModeToggle />
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   )

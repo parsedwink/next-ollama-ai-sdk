@@ -4,11 +4,7 @@ import "./globals.css"
 
 import AppSidebar from "@/app/sections/sidebar"
 import { ThemeProvider } from "@/components/theme-provider"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar-better"
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar-better"
 import { Header } from "./sections/header"
 
 const geistSans = Geist({
@@ -47,7 +43,9 @@ export default function RootLayout({
             {/* <div className="size-full flex flex-col gap-2"> */}
             <SidebarInset className="bg-sidebar group/sidebar-inset">
               <Header />
-              <main className="border-2">{children}</main>
+              <main className="h-full border-amber-300 border-2">
+                {children}
+              </main>
             </SidebarInset>
             {/* </div> */}
           </SidebarProvider>
