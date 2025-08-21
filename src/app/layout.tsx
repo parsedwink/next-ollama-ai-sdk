@@ -6,6 +6,7 @@ import AppSidebar from "@/app/sections/sidebar"
 import { ThemeProvider } from "@/components/theme-provider"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar-better"
 import { Header } from "./sections/header"
+import { StateContextProvider } from "@/components/state-context"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,17 +39,19 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SidebarProvider>
-            <AppSidebar />
-            {/* <div className="size-full flex flex-col gap-2"> */}
-            <SidebarInset className="bg-sidebar group/sidebar-inset">
-              <Header />
-              <main className="h-full border-amber-300 border-2">
-                {children}
-              </main>
-            </SidebarInset>
-            {/* </div> */}
-          </SidebarProvider>
+          <StateContextProvider>
+            <SidebarProvider>
+              <AppSidebar />
+              {/* <div className="size-full flex flex-col gap-2"> */}
+              <SidebarInset className="bg-sidebar group/sidebar-inset">
+                <Header />
+                <main className="h-full border-amber-300 border-2">
+                  {children}
+                </main>
+              </SidebarInset>
+              {/* </div> */}
+            </SidebarProvider>
+          </StateContextProvider>
         </ThemeProvider>
       </body>
     </html>
