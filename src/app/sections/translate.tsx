@@ -17,6 +17,7 @@ import {
 import { ArrowUp, Square } from "lucide-react"
 import { Response } from "@/components/ai-elements/response"
 import { Button } from "@/components/ui/button"
+import CopyButton from "@/components/copy-button"
 
 export default function Translate() {
   const [input, setInput] = useState("")
@@ -75,9 +76,10 @@ export default function Translate() {
           </PromptInput>
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={50}>
+        <ResizablePanel defaultSize={50} className="p-2 relative">
+          <CopyButton />
           {/* output */}
-          <Response>{generation}</Response>
+          <Response className="b-2">{generation}</Response>
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>
