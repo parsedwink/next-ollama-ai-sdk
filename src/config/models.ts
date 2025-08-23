@@ -11,6 +11,10 @@ export interface LLModelProps {
   prompt_template: TemplateSpecification
 }
 
+// export function load_model(name: string, prompt_template_source: string) {
+//   const templateString = fs.readFileSync(prompt_template_source, "utf8")
+// }
+
 export class LLModel {
   name: string
   props: LLModelProps
@@ -21,18 +25,19 @@ export class LLModel {
     props: Omit<LLModelProps, "prompt_template">,
   ) {
     this.name = name
-    // const templateString = fs.readFileSync(prompt_template_source, "utf8")
-    const templateString = `Below is an instruction that describes a task, 
-paired with an input that provides further context.
-Write a response that appropriately completes the request.
-### Instruction:
-Translate the following sentences from {{source_lang}} to {{target_lang}}. {{{definitions}}}
-### Input:
-{{{source}}}
-### Response:`
+    const templateString = fs.readFileSync(prompt_template_source, "utf8")
+
+    //     const templateString = `Below is an instruction that describes a task,
+    // paired with an input that provides further context.
+    // Write a response that appropriately completes the request.
+    // ### Instruction:
+    // Translate the following sentences from {{source_lang}} to {{target_lang}}. {{{definitions}}}
+    // ### Input:
+    // {{{source}}}
+    // ### Response:`
+
     const template = Handlebars.compile(templateString)
     Handlebars.registerPartial(name, template)
-    // console.log(template)
 
     this.props = { ...props, prompt_template: template }
   }
