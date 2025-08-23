@@ -37,7 +37,7 @@ const other_model = new LLModel(
   },
 )
 
-export const appModels = {
+export const appModels: Record<string, LLModel> = {
   dev: devLLModel,
   other: other_model,
 }

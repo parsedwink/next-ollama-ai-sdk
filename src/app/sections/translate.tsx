@@ -24,10 +24,12 @@ export default function Translate() {
   const [isLoading, setIsLoading] = useState(false)
   const [generation, setGeneration] = useState<string>("")
 
+  const model_name = "dev"
+
   async function submitText() {
     setIsLoading(true)
     setGeneration("")
-    const { output } = await generate(input)
+    const { output } = await generate(input, model_name)
     for await (const delta of readStreamableValue(output)) {
       setGeneration((currentGeneration) => `${currentGeneration}${delta}`)
     }
