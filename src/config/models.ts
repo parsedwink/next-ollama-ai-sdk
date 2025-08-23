@@ -8,7 +8,7 @@ export interface LLModelProps {
   model: string
   source_lang: LangCode
   target_lang: LangCode
-  prompt_template: unknown
+  prompt_template: TemplateSpecification
 }
 
 export class LLModel {
@@ -21,8 +21,18 @@ export class LLModel {
     props: Omit<LLModelProps, "prompt_template">,
   ) {
     this.name = name
-    const templateString = fs.readFileSync(prompt_template_source, "utf8")
+    // const templateString = fs.readFileSync(prompt_template_source, "utf8")
+    const templateString = `Below is an instruction that describes a task, 
+paired with an input that provides further context.
+Write a response that appropriately completes the request.
+### Instruction:
+Translate the following sentences from {{source_lang}} to {{target_lang}}. {{{definitions}}}
+### Input:
+{{{source}}}
+### Response:`
     const template = Handlebars.compile(templateString)
+    Handlebars.registerPartial(name, template)
+    // console.log(template)
 
     this.props = { ...props, prompt_template: template }
   }
@@ -40,14 +50,14 @@ export class LLModel {
     const source_lang = languages[this.props.source_lang].name
     const target_lang = languages[this.props.target_lang].name
 
-    return `Below is an instruction that describes a task, 
-paired with an input that provides further context.
-Write a response that appropriately completes the request.
-### Instruction:
-Translate the following sentences from ${source_lang} to ${target_lang}. ${definitions}
-### Input:
-${source}
-### Response:`
+    const prompt = Handlebars.partials[this.name]({
+      source_lang,
+      target_lang,
+      definitions,
+      source,
+    })
+
+    return prompt
   }
 }
 
