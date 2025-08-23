@@ -11,12 +11,13 @@ const db = new Jsoning("db/testdb.json")
 const model = ollama(devLLModel.props.model)
 // const model = ollama("jobautomation/OpenEuroLLM-Romanian:latest")
 
-export async function generate(source: string) {
+export async function generate(source: string, model_name: string) {
   const stream = createStreamableValue("")
 
+  console.log(model_name)
   const pairs = await db.all()
   const prompt = devLLModel.buildPrompt(source, pairs)
-  console.log(`PROMPT\n${prompt}`)
+
   ;(async () => {
     const { textStream } = streamText({
       model,

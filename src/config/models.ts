@@ -1,7 +1,7 @@
-import Handlebars from "handlebars"
 import fs from "fs"
-import { LangCode, languages } from "./appconfig"
+import Handlebars from "handlebars"
 import { JSONValue } from "jsoning"
+import { LangCode, appLanguages } from "./appconfig"
 
 export interface LLModelProps {
   provider: string
@@ -10,10 +10,6 @@ export interface LLModelProps {
   target_lang: LangCode
   prompt_template: TemplateSpecification
 }
-
-// export function load_model(name: string, prompt_template_source: string) {
-//   const templateString = fs.readFileSync(prompt_template_source, "utf8")
-// }
 
 export class LLModel {
   name: string
@@ -25,17 +21,8 @@ export class LLModel {
     props: Omit<LLModelProps, "prompt_template">,
   ) {
     this.name = name
+
     const templateString = fs.readFileSync(prompt_template_source, "utf8")
-
-    //     const templateString = `Below is an instruction that describes a task,
-    // paired with an input that provides further context.
-    // Write a response that appropriately completes the request.
-    // ### Instruction:
-    // Translate the following sentences from {{source_lang}} to {{target_lang}}. {{{definitions}}}
-    // ### Input:
-    // {{{source}}}
-    // ### Response:`
-
     const template = Handlebars.compile(templateString)
     Handlebars.registerPartial(name, template)
 
@@ -52,8 +39,8 @@ export class LLModel {
       definitions = `Use these translations: ${buildExample(examples)}.`
     }
 
-    const source_lang = languages[this.props.source_lang].name
-    const target_lang = languages[this.props.target_lang].name
+    const source_lang = appLanguages[this.props.source_lang].name
+    const target_lang = appLanguages[this.props.target_lang].name
 
     const prompt = Handlebars.partials[this.name]({
       source_lang,

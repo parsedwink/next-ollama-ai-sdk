@@ -29,6 +29,9 @@ export default function AppSidebar({
         <SidebarGroup>
           <SidebarGroupLabel>Traduceri</SidebarGroupLabel>
           <Pairs />
+          <p className="font-bold p-1 rounded-full bg-amber-700 text-center">
+            load/save pairs
+          </p>
         </SidebarGroup>
         {/* <NavMain items={data.navMain} /> */}
         {/* <NavProjects projects={data.projects} /> */}

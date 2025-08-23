@@ -16,13 +16,11 @@ const StateContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [open, setOpen] = useState<boolean>(false)
-
   const handleSetOpen = useCallback(() => setOpen((prev) => !prev), [])
 
-  const contextValue = useMemo<StateContextProps>(
-    () => ({ open, handleSetOpen }),
-    [open, handleSetOpen],
-  )
+  const contextValue = useMemo<StateContextProps>(() => {
+    return { open, handleSetOpen }
+  }, [open, handleSetOpen])
 
   return (
     <StateContext.Provider value={contextValue}>
