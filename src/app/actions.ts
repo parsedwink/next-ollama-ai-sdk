@@ -16,7 +16,7 @@ export async function generate(source: string) {
 
   const pairs = await db.all()
   const prompt = devLLModel.buildPrompt(source, pairs)
-
+  console.log(`PROMPT\n${prompt}`)
   ;(async () => {
     const { textStream } = streamText({
       model,
