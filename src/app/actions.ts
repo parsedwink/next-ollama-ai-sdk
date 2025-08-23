@@ -1,20 +1,21 @@
 "use server"
 
-import { streamText } from "ai"
-import { ollama } from "ollama-ai-provider-v2"
+import { devLLModel } from "@/config/appconfig"
 import { createStreamableValue } from "@ai-sdk/rsc"
-import { Jsoning, JSONValue } from "jsoning"
+import { streamText } from "ai"
+import { Jsoning } from "jsoning"
+import { ollama } from "ollama-ai-provider-v2"
 
 const db = new Jsoning("db/testdb.json")
 const pairs = await db.all()
 
-const model = ollama("hf.co/QuantFactory/EuroLLM-9B-Instruct-GGUF:Q4_K_M")
+const model = ollama(devLLModel.props.model)
 // const model = ollama("jobautomation/OpenEuroLLM-Romanian:latest")
 
 export async function generate(source: string) {
   const stream = createStreamableValue("")
 
-  const prompt = buildPrompt(source, pairs)
+  const prompt = devLLModel.buildPrompt(source, pairs)
   console.log(prompt)
   ;(async () => {
     const { textStream } = streamText({
@@ -32,6 +33,7 @@ export async function generate(source: string) {
   return { output: stream.value }
 }
 
+/*
 function buildExample(pairs: Record<string, JSONValue>): string {
   return Object.entries(pairs)
     .map(([k, v]) => `'${k}'='${v}'`)
@@ -50,6 +52,8 @@ function buildPrompt(
     definitions = `Use these definitions: ${buildExample(examples)}.`
   }
 
+  // const model = devModel
+
   return `Below is an instruction that describes a task, 
 paired with an input that provides further context.
 Write a response that appropriately completes the request.
@@ -59,3 +63,4 @@ Translate the following sentences from ${source_lang} to ${target_lang}. ${defin
 ${source}
 ### Response:`
 }
+*/
