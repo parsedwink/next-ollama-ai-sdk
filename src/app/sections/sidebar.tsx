@@ -13,12 +13,10 @@ import {
 import Pairs from "./pairs"
 
 // shadcn demo
-import { data } from "@/config/demo-sidebar-data"
-import { ModelSwitcher } from "@/components/model-switcher"
-import { ModeToggle } from "@/components/mode-toggle"
-import Image from "next/image"
-import { appLanguages } from "@/config/appconfig"
 import LangFlag from "@/components/lang-flag"
+import { ModeToggle } from "@/components/mode-toggle"
+import { ModelSwitcher } from "@/components/model-switcher"
+import { data } from "@/config/demo-sidebar-data"
 
 export default function AppSidebar({
   ...props

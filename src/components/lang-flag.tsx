@@ -1,8 +1,8 @@
 "use client"
 
 import { LangCode } from "@/config/appconfig"
-import { CircleFlag, CircleFlagLanguage } from "react-circle-flags"
 import { ReactElement } from "react"
+import { CircleFlagLanguage } from "react-circle-flags"
 
 // wtf
 const FLAGS: Record<LangCode, ReactElement<SVGElement>> = {
