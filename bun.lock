@@ -28,6 +28,7 @@
         "embla-carousel-react": "^8.6.0",
         "handlebars": "^4.7.8",
         "harden-react-markdown": "^1.0.4",
+        "circle-flags": "https://github.com/HatScripts/circle-flags",
         "jsoning": "^1.0.1",
         "katex": "^0.16.22",
         "lucide-react": "^0.539.0",
@@ -540,6 +541,8 @@
     "character-reference-invalid": ["character-reference-invalid@1.1.4", "", {}, "sha512-mKKUkUbhPpQlCOfIuZkvSEgktjPFIsZKRRbC6KWVEMvlzblj3i3asQv5ODsrwt0N3pHAEvjP8KTQPHkp0+6jOg=="],
 
     "chownr": ["chownr@3.0.0", "", {}, "sha512-+IxzY9BZOQd/XuYPRmrvEVjF/nqj5kgT4kEq7VofrDoM1MxoRjEWkrCC3EtLi59TVawxTAn+orJwFQcrqEN1+g=="],
+
+    "circle-flags": ["circle-flags@github:HatScripts/circle-flags#c7eb0a1", {}, "HatScripts-circle-flags-c7eb0a1"],
 
     "class-variance-authority": ["class-variance-authority@0.7.1", "", { "dependencies": { "clsx": "^2.1.1" } }, "sha512-Ka+9Trutv7G8M6WT6SeiRWz792K5qEqIGEGzXKhAE6xOWAY6pPH8U+9IY3oCMv6kqTmLsv7Xh/2w2RigkePMsg=="],
 

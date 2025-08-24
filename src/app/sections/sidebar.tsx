@@ -16,6 +16,9 @@ import Pairs from "./pairs"
 import { data } from "@/config/demo-sidebar-data"
 import { ModelSwitcher } from "@/components/model-switcher"
 import { ModeToggle } from "@/components/mode-toggle"
+import Image from "next/image"
+import { appLanguages } from "@/config/appconfig"
+import LangFlag from "@/components/lang-flag"
 
 export default function AppSidebar({
   ...props
@@ -29,9 +32,7 @@ export default function AppSidebar({
         <SidebarGroup>
           <SidebarGroupLabel>Traduceri</SidebarGroupLabel>
           <Pairs />
-          <p className="font-bold p-1 rounded-full bg-amber-700 text-center">
-            load/save pairs
-          </p>
+          <LangFlag code="en" />
         </SidebarGroup>
         {/* <NavMain items={data.navMain} /> */}
         {/* <NavProjects projects={data.projects} /> */}

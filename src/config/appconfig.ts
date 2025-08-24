@@ -5,7 +5,6 @@ export type LangCode = "ro" | "en" | "de" | "it" | "cz"
 export interface LangDetails {
   code: LangCode
   name: string
-  flag?: string
 }
 
 export const appLanguages: Record<LangCode, LangDetails> = {
