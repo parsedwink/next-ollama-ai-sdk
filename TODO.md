@@ -1,6 +1,6 @@
 ## logic
 
-- [ ] model+prompt+lang store
+- [ ] model to many lang pairs
 
 ## dev
 

@@ -1,6 +1,7 @@
 "use client"
 
 import { LangCode } from "@/config/appconfig"
+import { CircleFlag, CircleFlagLanguage } from "react-circle-flags"
 import { ReactElement } from "react"
 
 // wtf
@@ -92,6 +93,12 @@ const FLAGS: Record<LangCode, ReactElement<SVGElement>> = {
   ),
 }
 
-export default function LangFlag({ code }: { code: LangCode }) {
-  return <p className="p-2 bg-teal-500">{FLAGS[code]}</p>
+export default function LangFlag({
+  code,
+  size = 28,
+}: {
+  code: LangCode
+  size?: number
+}) {
+  return <CircleFlagLanguage languageCode={code} width={size} height={size} />
 }
