@@ -1,6 +1,6 @@
 import { LLModel } from "./models"
 
-export type LangCode = "ro" | "en" | "de" | "it"
+export type LangCode = "ro" | "en" | "de" | "it" | "cz"
 
 export interface LangDetails {
   code: LangCode
@@ -13,6 +13,7 @@ export const appLanguages: Record<LangCode, LangDetails> = {
   en: { code: "en", name: "English" },
   it: { code: "it", name: "Italian" },
   de: { code: "de", name: "Deutsch" },
+  cz: { code: "cz", name: "Czech" },
 }
 
 export const devLLModel = new LLModel(
@@ -26,9 +27,9 @@ export const devLLModel = new LLModel(
   },
 )
 
-const other_model = new LLModel(
-  "other",
-  "src/config/prompts/EuroLLM_Italian.hbs",
+const llmodel_it_ro = new LLModel(
+  "EuroLLM Italian",
+  "src/config/prompts/EuroLLM_ALL.hbs",
   {
     provider: "ollama",
     model: "jobautomation/OpenEuroLLM-Italian:latest",
@@ -36,8 +37,30 @@ const other_model = new LLModel(
     target_lang: "ro",
   },
 )
+const llmodel_de_ro = new LLModel(
+  "EuroLLM Deutsch",
+  "src/config/prompts/EuroLLM_ALL.hbs",
+  {
+    provider: "ollama",
+    model: "jobautomation/OpenEuroLLM-German:latest",
+    source_lang: "de",
+    target_lang: "ro",
+  },
+)
+const llmodel_cz_ro = new LLModel(
+  "EuroLLM Deutsch",
+  "src/config/prompts/EuroLLM_ALL.hbs",
+  {
+    provider: "ollama",
+    model: "jobautomation/OpenEuroLLM-Czech:latest",
+    source_lang: "cz",
+    target_lang: "ro",
+  },
+)
 
 export const appModels: Record<string, LLModel> = {
   dev: devLLModel,
-  other: other_model,
+  it_ro: llmodel_it_ro,
+  de_ro: llmodel_de_ro,
+  cz_ro: llmodel_cz_ro,
 }

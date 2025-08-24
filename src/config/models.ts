@@ -22,7 +22,14 @@ export class LLModel {
   ) {
     this.name = name
 
-    const templateString = fs.readFileSync(prompt_template_source, "utf8")
+    let templateString = "Translate into Romanian: {{source}}"
+    try {
+      templateString = fs.readFileSync(prompt_template_source, "utf8")
+    } catch (error) {
+      console.log(
+        `Error loading ${prompt_template_source}: ${JSON.stringify(error)}`,
+      )
+    }
     const template = Handlebars.compile(templateString)
     Handlebars.registerPartial(name, template)
 
